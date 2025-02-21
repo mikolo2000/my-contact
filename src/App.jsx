@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import ContactCard from "./components/contactCard";
-
+import Header from "./components/header";
 import ContactDetails from "./components/contactDetails";
 
 function App() {
@@ -25,10 +25,11 @@ function App() {
 
   return (
     <>
-      <section className="d-inline-flex p-5 container justify-content-start">
-        <div>
+      <Header/>
+      <section className="d-inline-flex p-5 container justify-content-start position-relative p-5 m-5">
+        <div  className="p-5 m-5 justify-content-start position-relative">
           {error && <p>{error}</p>}
-          <div>
+          {error ? "":<div>
             {users.map((user) => {
               return (
                 <ContactCard
@@ -48,7 +49,7 @@ function App() {
                 />
               );
             })}
-          </div>
+          </div>}
         </div>
         {!activeUser  ?    <div className="position-fixed top-50 start-50"><h1>Select User</h1></div> : <ContactDetails
             firstName={activeUser.firstName}

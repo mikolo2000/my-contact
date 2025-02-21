@@ -1,6 +1,7 @@
 import React from "react";
 import { it, expect, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import App from "../src/App.jsx";
 import "@testing-library/jest-dom/vitest";
 import { http, HttpResponse } from "msw";
@@ -20,7 +21,7 @@ describe("App", () => {
   });
 
   it("should show an error message if there is an error", async () => {
-    server.use(
+     await server.use(
       http.get(
         "https://dummyjson.com/users?limit=20&select=id,firstName,lastName,gender,email,phone,age",
         () => HttpResponse.text('Server Error', {status: 500})
@@ -29,7 +30,7 @@ describe("App", () => {
     render(<App />);
 
     const error = await screen.findByText(/error/i);
-    screen.debug();
+    
     expect(error).toBeInTheDocument;
   });
 
@@ -37,7 +38,17 @@ describe("App", () => {
     render(<App />);
 
     const users = await screen.findAllByRole("heading", { level: 5 });
-   
-    expect(users).toHaveLength(3);
+
+    await userEvent.click(users[2]);
+    
+
+    expect(await screen.findByText(/first name/i)).toBeInTheDocument();
+    expect(await screen.findByText(/last name/i)).toBeInTheDocument();
+    expect(await screen.findByText(/gender/i)).toBeInTheDocument();
+    expect(await screen.findByText(/age/i)).toBeInTheDocument();
+    expect(await screen.findByText(/email/i)).toBeInTheDocument();
+
   });
+
+
 });

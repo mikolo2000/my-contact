@@ -3,8 +3,8 @@ import React from "react";
 
 const ContactDetails = (props) => {
   return (
-    <div className="position relative">
-      <div className="position-fixed top-20 start-40">
+    <div className="position-relative container mt-5 pt-5">
+      <div className="position-fixed bottom-5 start-40">
           <table>
             <tbody>
               <tr>
